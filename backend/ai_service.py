@@ -23,44 +23,50 @@ class AiService:
         }
 
     # helper functions for minimax algo
-
     def get_valid_locations(self, state: GameState):
         '''
         returns list of columns that are valid to move (ones that aren't full)
         '''
-        return []
+        validLocs = []
+        for index, top_of_col in state.board[:, len(board[0]) - 1]:
+            if top_of_col == 0:
+                validLocs.append(index)
+        return validLocs
 
     def score_position(self, state: GameState, player):
         '''
         return a numerical representation of the attractiveness of the board for a given player
         only used if no win or tie
         '''
+        
         return 1
     
     def get_next_open_row(self, state: GameState, col):
         '''
-        return the next available row for a given column
+        return the next available row for a given column, return -1 if none found
         '''
-        return 0
+        ret = state.get_landing_row(col)
+        if ret == -1:
+            raise Exception("There is now next available row in the column: ", col)
     
     # methods to determine whether its a win or board is full
     def is_terminal_node(self, state: GameState):
         '''
         returns true if the game is over (win or tie)
         '''
-        return False
+        return state.check_win_condition(1) || state.check_win_condition(2) || state.is_full()
 
     def is_win(self, state: GameState, player):
         '''
         returns true if the player has won
         '''
-        return False
+        return state.check_win_condition(1)
     
     def is_tie(self, state: GameState):
         '''
         returns true if board is completely full for a tie
         '''
-        return False
+        return state.is_full() && not state.check_win_condition(1) && not state.check_win_condition(2)
 
     
     def minimax(self, board:GameState, depth, alpha, beta, maximizing_player):
