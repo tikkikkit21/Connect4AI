@@ -13,29 +13,30 @@ class GameState:
             self.board = np.array(custom_board)
         else:
             # Initialize a 7x6 board with empty slots (0 represents an empty slot)
-            self.board = np.zeros((ROWS, COLS))
+            self.board = np.zeros((COLS, ROWS), dtype=int)
 
     def __str__(self):
         # Create a string representation of the board
+        trans = np.flipud(np.transpose(self.board, axes=(1, 0)))
         board_str = ""
-        for row in self.board:
+        for row in trans:
             board_str += " ".join(map(str, row)) + "\n"
         return board_str
 
     def make_move(self, column, player):
         # Check if the column is valid and the selected slot is empty
-        if 0 <= column < COLS and self.board[0][column] == 0:
+        if 0 <= column < COLS and self.board[column][ROWS-1] == 0:
             # Find the lowest empty slot in the column and place the player's piece (1 or 2)
-            for row in range(ROWS-1, -1, -1):
-                if self.board[row][column] == 0:
-                    self.board[row][column] = player
+            for row in range(ROWS):
+                if self.board[column][row] == 0:
+                    self.board[column][row] = player
                     return True  # Move successfully made
         return False  # Invalid move
 
     def is_full(self):
         # Check if the board is completely filled (a tie)
-        for row in self.board[0]:
-            if row == 0:
+        for top_of_col in self.board[:,ROWS-1]:
+            if top_of_col == 0:
                 return False  # There's an empty slot
         return True  # The board is full (tie game)
     
@@ -49,26 +50,40 @@ class GameState:
         # check horizontal
         for c in range(COLS-3):
             for r in range(ROWS):
-                if self.board[r][c] == piece and self.board[r][c+1] == piece and self.board[r][c+2] == piece and self.board[r][c+3] == piece:
+                if self.board[c][r] == piece and self.board[c+1][r] == piece and self.board[c+2][r] == piece and self.board[r][c+3] == piece:
                     return True
 
         # check vertical
         for c in range(COLS):
             for r in range(ROWS-3):
-                if self.board[r][c] == piece and self.board[r+1][c] == piece and self.board[r+2][c] == piece and self.board[r+3][c] == piece:
+                if self.board[c][r] == piece and self.board[c][r+1] == piece and self.board[c][r+2] == piece and self.board[c][r+3] == piece:
                     return True
 
         # check upward diagonals
         for c in range(COLS-3):
             for r in range(3, ROWS):
-                if self.board[r][c] == piece and self.board[r-1][c+1] == piece and self.board[r-2][c+2] == piece and self.board[r-3][c+3] == piece:
+                if self.board[c][r] == piece and self.board[c+1][r-1] == piece and self.board[c+2][r-2] == piece and self.board[c+3][r-3] == piece:
                     return True
 
         # check downward diagonals
         for c in range(3,COLS):
             for r in range(3, ROWS):
-                if self.board[r][c] == piece and self.board[r-1][c-1] == piece and self.board[r-2][c-2] == piece and self.board[r-3][c-3] == piece:
+                if self.board[c][r] == piece and self.board[c-1][r-1] == piece and self.board[c-2][r-2] == piece and self.board[c-3][r-3] == piece:
                     return True
         
         # no win
         return False
+    
+    def get_landing_row(self, col: int):
+        """
+        Given a column, determines where the peice lands, or -1 if full.
+        Returns the row.
+        """
+        if col < 0 or col > COLS:
+            raise ValueError("Invalid column")
+        column = self.board[col]
+        for r in range(ROWS):
+            if column[r] == 0:
+                return r
+        return -1
+
