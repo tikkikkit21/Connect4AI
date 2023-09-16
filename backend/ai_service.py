@@ -1,5 +1,6 @@
 from game_state import GameState
-
+import math
+import random
 
 def get_next_move(game_state: GameState):
 
