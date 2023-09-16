@@ -10,6 +10,29 @@ body {
   background-color: #ececec;
 }
 
+.circle {
+  display: flex;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+} 
+
+.zero {
+  background-color: lightblue;
+}
+
+.one {
+  background-color: red;
+}
+
+.two {
+  background-color: #f7bb05;
+}
+
+.circle:hover {
+  background-color: yellow;
+}
+
 /* .first-color { 
 	background: #ececec; 
 }

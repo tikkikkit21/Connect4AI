@@ -1,6 +1,11 @@
+import Board from './Board.jsx';
+
 function PlayerPage() {
     return (
-        <p>This is the player page.</p>
+        <main>
+            <p>This is the player page.</p>
+            <Board />
+        </main>
     )
 }
 export default PlayerPage;
