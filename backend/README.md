@@ -13,13 +13,13 @@ To test sending a request to the '/getnextmove' endpoint, open the console in yo
 ```javascript
 const url = 'http://127.0.0.1:5000/getnextmove';
 const board = [
-  [1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [1, 2, 0, 0, 0],
-  [2, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
+  [1, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [1, 2, 0, 0, 0, 0],
+  [2, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
 ];
 const data = {'board': board}
 
