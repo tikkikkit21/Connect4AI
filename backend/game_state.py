@@ -3,6 +3,9 @@ import numpy as np
 ROWS = 6
 COLS = 7
 
+PLAYER_PIECE = 1
+AI_PIECE = 2
+
 class GameState:
     def __init__(self, custom_board=None):
         if custom_board:
@@ -35,22 +38,37 @@ class GameState:
             if row == 0:
                 return False  # There's an empty slot
         return True  # The board is full (tie game)
+    
+    def check_win_condition(self, piece: int):
+        """
+        checks win condition for player
+        
+        Args:
+        piece: This should be 1 for the players peice, or 2 for the AI's.
+        """
+        # check horizontal
+        for c in range(COLS-3):
+            for r in range(ROWS):
+                if self.board[r][c] == piece and self.board[r][c+1] == piece and self.board[r][c+2] == piece and self.board[r][c+3] == piece:
+                    return True
 
-    def check_winner(self, player):
-        # Check for a winning condition in rows, columns, and diagonals
-        for row in range(ROWS):
-            for col in range(COLS):
-                if self.board[row][col] == player:
-                    # Check horizontal
-                    if col + 3 < COLS and all(self.board[row][col + i] == player for i in range(4)):
-                        return True
-                    # Check vertical
-                    if row + 3 < ROWS and all(self.board[row + i][col] == player for i in range(4)):
-                        return True
-                    # Check diagonal (up-right)
-                    if col + 3 < COLS and row - 3 >= 0 and all(self.board[row - i][col + i] == player for i in range(4)):
-                        return True
-                    # Check diagonal (down-right)
-                    if col + 3 < COLS and row + 3 < ROWS and all(self.board[row + i][col + i] == player for i in range(4)):
-                        return True
-        return False  # No winner
+        # check vertical
+        for c in range(COLS):
+            for r in range(ROWS-3):
+                if self.board[r][c] == piece and self.board[r+1][c] == piece and self.board[r+2][c] == piece and self.board[r+3][c] == piece:
+                    return True
+
+        # check upward diagonals
+        for c in range(COLS-3):
+            for r in range(3, ROWS):
+                if self.board[r][c] == piece and self.board[r-1][c+1] == piece and self.board[r-2][c+2] == piece and self.board[r-3][c+3] == piece:
+                    return True
+
+        # check downward diagonals
+        for c in range(3,COLS):
+            for r in range(3, ROWS):
+                if self.board[r][c] == piece and self.board[r-1][c-1] == piece and self.board[r-2][c-2] == piece and self.board[r-3][c-3] == piece:
+                    return True
+        
+        # no win
+        return False
