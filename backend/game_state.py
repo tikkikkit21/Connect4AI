@@ -51,7 +51,7 @@ class GameState:
         # check horizontal
         for c in range(COLS-3):
             for r in range(ROWS):
-                if self.board[c][r] == piece and self.board[c+1][r] == piece and self.board[c+2][r] == piece and self.board[r][c+3] == piece:
+                if self.board[c][r] == piece and self.board[c+1][r] == piece and self.board[c+2][r] == piece and self.board[c+3][r] == piece:
                     return True
 
         # check vertical

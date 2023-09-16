@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-import ai_service
+from ai_service import AiService
 from game_state import GameState
 
 app = Flask(__name__)
@@ -32,7 +32,9 @@ def get_next_move():
     board = data['board']
     game_state = GameState(custom_board=board)
 
-    return ai_service.get_next_move(game_state)
+    ai_service = AiService()
+
+    return ai_service.get_next_move(game_state=game_state)
 
 
 if __name__ == '__main__':
