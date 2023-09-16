@@ -6,9 +6,15 @@ class AiService:
     def __init__(self, game_state: GameState):
         self.game_state = game_state
 
-    def get_next_move(game_state: GameState):
+    def get_next_move(self, game_state: GameState):
         print("AI considering next move, with gamestate: ")
         print(game_state)
+
+        # # get column to drop into from minimax
+        # col_to_go = self.minimax(board, 5, -math.inf, math.inf, True)
+
+        # # after we have the column, row is trivial
+        # row_to_go = get_next_open_row(col_to_go)
 
         # hardcoded for now
         return {
@@ -17,27 +23,54 @@ class AiService:
         }
 
     # helper functions for minimax algo
-    def get_valid_locations(board):
+
+    def get_valid_locations(self, state: GameState):
+        '''
+        returns list of columns that are valid to move (ones that aren't full)
+        '''
         return []
-    
-    def is_terminal_node():
-        return False
 
-    def winning_move(board, player):
-        return False
-
-    def score_position(board, player):
+    def score_position(self, state: GameState, player):
+        '''
+        return a numerical representation of the attractiveness of the board for a given player
+        only used if no win or tie
+        '''
         return 1
     
-    def get_next_open_row(board, col):
+    def get_next_open_row(self, state: GameState, col):
+        '''
+        return the next available row for a given column
+        '''
         return 0
+    
+    # methods to determine whether its a win or board is full
+    def is_terminal_node(self, state: GameState):
+        '''
+        returns true if the game is over (win or tie)
+        '''
+        return False
+
+    def is_win(self, state: GameState, player):
+        '''
+        returns true if the player has won
+        '''
+        return False
+    
+    def is_tie(self, state: GameState):
+        '''
+        returns true if board is completely full for a tie
+        '''
+        return False
 
     
-    
+    def minimax(self, board:GameState, depth, alpha, beta, maximizing_player):
+        '''
+        Maximizing player is true for ai, false for player
+        Alpha and beta are best scores a side can achieve assuming the opponent makes the best play.
 
-    # minimax function taken from
-    # https://github.com/zakuraevs/connect4-ai/blob/master/connect4_ai_commented.py
-    def minimax(self, board, depth, alpha, beta, maximizing_player):
+        minimax function adapted from
+        github.com/zakuraevs/connect4-ai/blob/master/connect4_ai_commented.py
+        '''
 
         # all valid locations on the board
         valid_locations = self.get_valid_locations(board)
