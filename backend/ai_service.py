@@ -44,13 +44,59 @@ class AiService:
                 validLocs.append(index)
         return validLocs
 
+    '''
+    Adapted from https://github.com/zakuraevs/connect4-ai/blob/master/connect4_ai_no_comments.py
+    '''
+    def evaluate_window(self, window, player):
+        opponent = 1
+        if player == 1:
+            opponent = 2
+        score = 0
+        if window.count(player) == 4:
+            score += 100
+        elif window.count(player) == 3 and window.count(0) == 1:
+            score += 5
+        elif window.count(player) == 2 and window.count(0) == 2:
+            score += 2
+            
+        if window.count(opponent) == 3 and window.count(0) == 1:
+            score -= 4
+        return score
+    
     def score_position(self, state: GameState, player):
         '''
         return a numerical representation of the attractiveness of the board for a given player
         only used if no win or tie
         '''
-        
-        return 1
+        score = 0
+        board = state.board
+
+        center_array = [int(i) for i in list(board[len(board)//2,:])]
+        center_count = center_array.count(player)
+        score += center_count * 6
+
+        colLen = len(board)
+        rowLen = len(board[0])
+
+        for r in range(rowLen):
+            row_array = [int(i) for i in list(board[:,r])]
+            for c in range(colLen-3):
+                window = row_array[c:c+4]
+                score += self.evaluate_window(window, player)
+        for c in range(colLen): 
+            col_array = [int(i) for i in list(board[c,:])]
+            for r in range(rowLen-3):
+                window = col_array[r:r+4]
+                score += self.evaluate_window(window, player)
+        for r in range(3,rowLen):
+            for c in range(colLen-3):
+                window = [board[c+i][r-i] for i in range(4)]
+                score += self.evaluate_window(window, player)
+        for r in range(3,rowLen):
+            for c in range(3,colLen):
+                window = [board[c-i][r-i] for i in range(4)]
+                score += self.evaluate_window(window, player)
+        return score
     
     def get_next_open_row(self, state: GameState, col):
         '''
