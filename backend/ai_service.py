@@ -72,7 +72,7 @@ class AiService:
         '''
         returns true if the player has won
         '''
-        return state.check_win_condition(1)
+        return state.check_win_condition(player)
     
     def is_tie(self, state: GameState):
         '''
