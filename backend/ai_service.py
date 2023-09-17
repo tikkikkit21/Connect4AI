@@ -6,7 +6,7 @@ import copy
 PLAYER_PIECE = 1
 AI_PIECE = 2
 
-DEFAULT_DEPTH = 8
+DEFAULT_DEPTH = 5
 
 class AiService:
     def __init__(self):
