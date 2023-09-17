@@ -1,6 +1,12 @@
+import Header from './Header.jsx'
+
 function BotPage() {
     return (
-        <p>This is the bot page.</p>
+        <div>
+            <Header />
+            <p>This is the bot page.</p>
+        </div>
+        
     )
 }
 

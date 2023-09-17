@@ -1,8 +1,10 @@
 import {NavLink} from "react-router-dom";
+import Header from './Header.jsx'
 
 function Home() {
     return (
         <main className="main-menu"> 
+            <Header />
             <h1> Connect4 AI </h1>
             <div className="menu-button-container">
                 <NavLink style = {{ textDecoration: "none"}} to={"/player-v-player"}>

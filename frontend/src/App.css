@@ -12,12 +12,23 @@ h2 {
   color: #385170;
 }
 
-html {
-  height: 100%
+h3 {
+  font-family: 'Indie Flower';
+  font-style: normal;
+  font-weight: 400;
+}
+
+h3:link {
+  text-decoration: none;
 }
 
 body {
+  background-color: #ececec;
   height: 100%;
+}
+
+html {
+  height: 100%
 }
 
 #root {
@@ -30,7 +41,6 @@ body {
   align-items: center;
   gap: 200px;
   height: 100%;
-  /* background-color: orange; */
 }
 
 .menu-button-container {
@@ -38,13 +48,6 @@ body {
   flex-direction: row;
   justify-content: space-around;
   width: 80%;
-  /* background-color:blue; */
-}
-
-h3 {
-  font-family: 'Indie Flower';
-  font-style: normal;
-  font-weight: 400;
 }
 
 .circle-class {
@@ -81,12 +84,18 @@ h3 {
   border: 10px solid rgba(0, 0, 0, 0.1);
 }
 
-h3:link {
-  text-decoration: none;
+.header-container {
+  display: flex;
+  width: 100%;
+  height: 30px;
+  background-color: black;
+  align-items: center;
+  justify-content: start;
+  padding: 10px;
 }
 
-body {
-  background-color: #ececec;
+.header-text {
+  color: white
 }
 
 .grid-container {
@@ -99,8 +108,8 @@ body {
 .game-grid {
   display: inline-grid;
   justify-items: center;
-  grid-template-columns: repeat(7, 60px);
-  grid-template-rows: repeat(6, 60px);
+  grid-template-columns: repeat(7, 70px);
+  grid-template-rows: repeat(6, 70px);
   column-gap: 10px;
   row-gap: 10px;
   outline: 0.1px solid black;
@@ -114,8 +123,8 @@ body {
 
 .circle {
   display: flex;
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
 } 
 
