@@ -13,7 +13,7 @@ function BotPage() {
         }
     }
     return (
-        <div>
+        <div class="page-center-container">
             <Header />
             <h1>This is the bot page.</h1>
             <h2>{string}</h2>

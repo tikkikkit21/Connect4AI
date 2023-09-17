@@ -36,6 +36,15 @@ body {
   height: 100%;
 }
 
+.page-center-container {
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  gap:20px;
+}
+
 .header-container {
   display: flex;
   width: 100%;
@@ -44,6 +53,9 @@ body {
   align-items: center;
   justify-content: start;
   padding: 10px;
+  margin:0;
+  /* position:absolute; */
+  /* top:0px; */
 }
 
 .header-text {
@@ -55,7 +67,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 200px;
+  gap: 100px;
   height: 100%;
   /* background-color: orange; */
 }
@@ -70,7 +82,7 @@ body {
 
 .fake-board {
   background-color: blue;
-  height: 150px;
+  height: 10%;
   width:90%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -85,17 +97,36 @@ body {
   border-radius:50%;
 }
 
+.home-button {
+  height:11em;
+  width:11em;
+  box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
+  animation-duration: .25s;
+  animation-name: home-button-unhover;
+  position:absolute;
+  top:20px;
+  left:20px;
+}
+
+.home-button:hover {
+  height:12em;
+  width:12em;
+  box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
+  animation-duration: .25s;
+  animation-name: home-button-hover;
+}
+
 .outer-button {
-  height: 240px;
-  width: 240px;
+  height:15em;
+  width:15em;
   box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
   animation-duration: .25s;
   animation-name: button-unhover;
 }
 
 .outer-button-hover:hover {
-  height: 250px;
-  width: 250px;
+  height: 17em;
+  width: 17em;
   box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
   animation-duration: .25s;
   animation-name: button-hover;
@@ -108,6 +139,12 @@ body {
   animation-duration: .65s;
 }
 
+@media screen and (max-width: 400px) {
+  .dropped {
+    animation-duration: 2s;
+  }
+}
+
 @keyframes button-drop {
   from {
     margin-top: 0px;
@@ -115,35 +152,63 @@ body {
   }
 
   to {
-    margin-top: 210px;
+    margin-top: 300%;
     transform:rotate(360deg);
   }
 }
 
 @keyframes button-hover {
   from {
-    height: 240px;
-    width: 240px;
+    height: 15em;
+    width: 15em;
     box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
   }
 
   to {
-    height: 250px;
-    width: 250px;
+    height: 17em;
+    width: 17em;
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
+  }
+}
+
+@keyframes home-button-hover {
+  from {
+    height: 11em;
+    width: 11em;
+    box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
+  }
+
+  to {
+    height: 12em;
+    width: 12em;
     box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
   }
 }
 
 @keyframes button-unhover {
   from {
-    height: 250px;
-    width: 250px;
+    height: 17em;
+    width: 17em;
     box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
   }
 
   to {
-    height: 240px;
-    width: 240px;
+    height: 15em;
+    width: 15em;
+    box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
+  }
+}
+
+@keyframes home-button-unhover {
+  from {
+    height: 12em;
+    width: 12em;
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
+  }
+
+  to {
+    height: 11em;
+    width: 11em;
     box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
   }
 }
