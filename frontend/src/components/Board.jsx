@@ -21,32 +21,34 @@ class Board extends React.Component {
         return [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
     }
 
-    updateBoard(column) {
-        let i = -1;
-        let updated = false;
-        const nextBoard = this.state.board.map((currCol) => {
-            i++;
-            return currCol.map((cell) => {
-                if (i === column && cell == 0 && !updated) {
-                    updated = true;
-                    return this.state.turn + 1;
-                }
-                else {
-                    return cell;
-                }
+    updateBoard(column, row) {
+        if (this.state.board[column][row] === 0) {
+            let i = -1;
+            let updated = false;
+            const nextBoard = this.state.board.map((currCol) => {
+                i++;
+                return currCol.map((cell) => {
+                    if (i === column && cell == 0 && !updated) {
+                        updated = true;
+                        return this.state.turn + 1;
+                    }
+                    else {
+                        return cell;
+                    }
+                })
             })
-        })
-        this.setState(prevState => ({
-            board: nextBoard,
-            turn: (prevState.turn + 1) % 2
-        }))
+            this.setState(prevState => ({
+                board: nextBoard,
+                turn: (prevState.turn + 1) % 2
+            }))
+        }
     }
 
     generateStartingGrid() {
         let code = []
         for (let i = 5; i > -1; i--) {
             for (let j = 0; j < 7; j++) {
-                code.push(<Circle value='zero' column={j} keyProps={`${j}${i}`} handleClick={this.updateBoard} key={`${j}${i}`}/>)
+                code.push(<Circle value='zero' column={j} row={i} keyProps={`${j}${i}`} handleClick={this.updateBoard} key={`${j}${i}`}/>)
             }
         }
         return code
@@ -72,10 +74,10 @@ class Board extends React.Component {
                 i++;
             }
             if (this.state.turn % 2 === 0) {
-                array[i] = <Circle value="one" column={actionColumn} keyProps={`${actionColumn}${actionRow}`} handleClick={this.updateBoard} key={`${actionColumn}${actionRow}`}/>
+                array[i] = <Circle value="one" column={actionColumn} row={actionRow} keyProps={`${actionColumn}${actionRow}`} handleClick={this.updateBoard} key={`${actionColumn}${actionRow}`}/>
             }
             else {
-                array[i] = <Circle value="two" column={actionColumn} keyProps={`${actionColumn}${actionRow}`} handleClick={this.updateBoard} key={`${actionColumn}${actionRow}`}/>
+                array[i] = <Circle value="two" column={actionColumn} row={actionRow} keyProps={`${actionColumn}${actionRow}`} handleClick={this.updateBoard} key={`${actionColumn}${actionRow}`}/>
             }
             this.setState(prevState => ({
                 grid: array
@@ -83,22 +85,6 @@ class Board extends React.Component {
         }
         
     }
-
-    // const updateGrid = (column, row, turn) => {
-    //     let array = grid;
-    //     let i = 0;
-    //     let key = `${column}${row}`;
-    //     while (!(array[i].props.keyProps === key)) {
-    //         i++;
-    //     }
-    //     if (turn % 2 === 0) {
-    //         array[i] = <Circle value="one" column={column} keyProps={`${column}${row}`} handleClick={updateBoard} key={`${column}${row}`}/>
-    //     }
-    //     else {
-    //         array[i] = <Circle value="two" column={column} keyProps={`${column}${row}`} handleClick={updateBoard} key={`${column}${row}`}/>
-    //     }
-    //     setGrid(array);
-    // }
 
     render() {
         return (
