@@ -5,7 +5,43 @@ function Board() {
     // Outer array: 7 columns; inner array: 6 rows. First number: lowest position; last number: highest position
     // Hard-coded for now
     const getBoardFromBackend = () => {
-        return [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
+        const BACKEND_ADDR = "http://127.0.0.1:5000";
+        const url = BACKEND_ADDR + "/getnextboard"
+        
+        // TODO: need to get current board instead of blank
+        const currBoard = 
+            [[0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]]
+        const data = {'board': currBoard}
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        };
+        let new_board = []
+        console.log("Sent request to backend for move and new board")
+        fetch(url, requestOptions)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            new_board = data
+            console.log("Recieved move and new board from backend: ", new_board)
+          })
+          .catch((error) => {
+            console.error('There was a problem with the fetch operation:', error);
+          });
+        return new_board;
     }
 
     const [board, setBoard] = useState(getBoardFromBackend())
