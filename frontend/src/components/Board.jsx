@@ -13,6 +13,7 @@ class Board extends React.Component {
             board: this.getInitialBoard(),
             grid: this.generateStartingGrid(),
             turn: 0, // 0 when player 1 is playing, 1 when player 2 is playing
+            ableToClick: true
         }
         this.gameMode = this.props.gameMode
     }
@@ -49,7 +50,7 @@ class Board extends React.Component {
     }
 
     async updateBoard(column, row) {
-        if (this.state.board[column][row] === 0) {
+        if (this.state.board[column][row] === 0 && this.state.ableToClick) {
             let i = -1;
             let updated = false;
             const nextBoard = this.state.board.map((currCol) => {
@@ -73,10 +74,14 @@ class Board extends React.Component {
     
             // ask the AI for its turn
             if (this.gameMode === "pve") {
+                this.setState(prevState => ({
+                    ableToClick: false
+                }))
                 const aiBoard = await this.getBoardFromBackend(nextBoard)
                 let nextState = {
                     board: aiBoard,
-                    turn: (this.state.turn + 1) % 2
+                    turn: (this.state.turn + 1) % 2,
+                    ableToClick: true
                 }
                 this.setState(nextState, () => {});
             }
