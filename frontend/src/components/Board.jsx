@@ -13,8 +13,10 @@ class Board extends React.Component {
             board: this.getInitialBoard(),
             grid: this.generateStartingGrid(),
             turn: 0, // 0 when player 1 is playing, 1 when player 2 is playing
+            isGameOver: false
         }
-        this.gameMode = this.props.gameMode
+        this.gameMode = this.props.gameMode;
+        this.checkEndOfGame = this.checkEndOfGame.bind(this);
     }
 
     // get an empty board
@@ -122,15 +124,128 @@ class Board extends React.Component {
                 grid: array
             }))
             this.props.onTurn(this.state.turn);
+
+            // check for end of game
+            if (this.checkEndOfGame()){
+                console.log("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
+                this.setState(prevState => ({
+                    isGameOver: true
+                }))
+            }
         }
-        
     }
+
+    // checks if someone has won or if there is a tie
+    // true if end of game, false if not
+    checkEndOfGame() {
+        const NUM_COLS = 7
+        const NUM_ROWS = 6
+        const board = this.state.board
+        function checkWinOfAPlayer(player_number) {
+            // check horizontal
+            for (let c = 0; c < NUM_COLS - 3; c++) {
+              for (let r = 0; r < NUM_ROWS; r++) {
+                if (
+                  board[c][r] === player_number &&
+                  board[c + 1][r] === player_number &&
+                  board[c + 2][r] === player_number &&
+                  board[c + 3][r] === player_number
+                ) {
+                  return true;
+                }
+              }
+            }
+          
+            // check vertical
+            for (let c = 0; c < NUM_COLS; c++) {
+              for (let r = 0; r < NUM_ROWS - 3; r++) {
+                if (
+                  board[c][r] === player_number &&
+                  board[c][r + 1] === player_number &&
+                  board[c][r + 2] === player_number &&
+                  board[c][r + 3] === player_number
+                ) {
+                  return true;
+                }
+              }
+            }
+          
+            // check upward diagonals
+            for (let c = 0; c < NUM_COLS - 3; c++) {
+              for (let r = 3; r < NUM_ROWS; r++) {
+                if (
+                  board[c][r] === player_number &&
+                  board[c + 1][r - 1] === player_number &&
+                  board[c + 2][r - 2] === player_number &&
+                  board[c + 3][r - 3] === player_number
+                ) {
+                  return true;
+                }
+              }
+            }
+          
+            // check downward diagonals
+            for (let c = 3; c < NUM_COLS; c++) {
+              for (let r = 3; r < NUM_ROWS; r++) {
+                if (
+                  board[c][r] === player_number &&
+                  board[c - 1][r - 1] === player_number &&
+                  board[c - 2][r - 2] === player_number &&
+                  board[c - 3][r - 3] === player_number
+                ) {
+                  return true;
+                }
+              }
+            }
+            // no win
+            return false;
+          }
+        
+        function isFull() {
+            // Check if the board is completely filled (a tie)
+            for (let c = 0; c < NUM_COLS; c++) {
+              if (board[c][NUM_ROWS - 1] === 0) {
+                return false; // There's an empty slot
+              }
+            }
+            return true; // The board is full (tie game)
+          }
+
+        if (checkWinOfAPlayer(1) || checkWinOfAPlayer(2) || isFull()){
+            return true
+        } else {
+            return false
+        }
+    }
+
+    // const updateGrid = (column, row, turn) => {
+    //     let array = grid;
+    //     let i = 0;
+    //     let key = `${column}${row}`;
+    //     while (!(array[i].props.keyProps === key)) {
+    //         i++;
+    //     }
+    //     if (turn % 2 === 0) {
+    //         array[i] = <Circle value="one" column={column} keyProps={`${column}${row}`} handleClick={updateBoard} key={`${column}${row}`}/>
+    //     }
+    //     else {
+    //         array[i] = <Circle value="two" column={column} keyProps={`${column}${row}`} handleClick={updateBoard} key={`${column}${row}`}/>
+    //     }
+    //     setGrid(array);
+    // }
 
     render() {
         return (
-            <div className="grid-container">
-                <div className="game-grid">
-                    {this.state.grid}
+            <div>
+                <div>
+                    {this.state.isGameOver ? (
+                    <h1>Game Over</h1>
+                ) : null}
+                </div>
+                <div className="grid-container">
+                    <div className="game-grid">
+                        {this.state.grid}
+                    </div>
                 </div>
             </div>
         )
