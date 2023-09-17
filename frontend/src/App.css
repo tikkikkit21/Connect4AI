@@ -41,10 +41,21 @@ body {
   /* background-color:blue; */
 }
 
+.fake-board {
+  background-color: blue;
+  height: 100px;
+  width:90%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  position: fixed;
+  bottom: 0;
+}
+
 h3 {
   font-family: 'Indie Flower';
   font-style: normal;
   font-weight: 400;
+  color:white;
 }
 
 .circle-class {
@@ -57,16 +68,73 @@ h3 {
 .outer-button {
   height: 240px;
   width: 240px;
+  box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
+  animation-duration: .25s;
+  animation-name: button-unhover;
+}
+
+.outer-button-hover:hover {
+  height: 250px;
+  width: 250px;
+  box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
+  animation-duration: .25s;
+  animation-name: button-hover;
+}
+
+.dropped {
+  /* position: fixed; */
+  margin-top: 0px;
+  animation-name: button-drop;
+  animation-duration: .65s;
+}
+
+@keyframes button-drop {
+  from {
+    margin-top: 0px;
+    transform:rotate(0deg);
+  }
+
+  to {
+    margin-top: 500px;
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes button-hover {
+  from {
+    height: 240px;
+    width: 240px;
+    box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
+  }
+
+  to {
+    height: 250px;
+    width: 250px;
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
+  }
+}
+
+@keyframes button-unhover {
+  from {
+    height: 250px;
+    width: 250px;
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
+  }
+
+  to {
+    height: 240px;
+    width: 240px;
+    box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
+  }
 }
 
 .button-container {
-  height: 200px;
-  width: 200px;
+  height: 83%;
+  width: 83%;
   /* background-color:rgba(207, 60, 60); */
   border: 5px dotted rgba(0,0,0,0.2);
   /* outline: 5px solid rgba(207, 60, 60); */
   padding: 10px;
-  box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
 }
 
 .button-container div {
