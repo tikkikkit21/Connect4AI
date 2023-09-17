@@ -6,22 +6,49 @@ class Board extends React.Component {
     constructor(props) {
         super(props)
         this.getBoardFromBackend = this.getBoardFromBackend.bind(this);
+        this.getInitialBoard = this.getInitialBoard.bind(this);
         this.updateBoard = this.updateBoard.bind(this);
         this.generateStartingGrid = this.generateStartingGrid.bind(this);
         this.state = {
-            board: this.getBoardFromBackend(),
+            board: this.getInitialBoard(),
             grid: this.generateStartingGrid(),
             turn: 0, // 0 when player 1 is playing, 1 when player 2 is playing
         }
+        this.gameMode = this.props.gameMode
     }
 
-    // Outer array: 7 columns; inner array: 6 rows. First number: lowest position; last number: highest position
-    // Hard-coded for now
-    getBoardFromBackend() {
+    // get an empty board
+    getInitialBoard() {
         return [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
     }
 
-    updateBoard(column, row) {
+    // Outer array: 7 columns; inner array: 6 rows. First number: lowest position; last number: highest position
+    async getBoardFromBackend(currBoard) {
+        const BACKEND_ADDR = "http://127.0.0.1:5000";
+        const url = BACKEND_ADDR + "/getnextboard"
+        
+        // TODO: need to get current board instead of blank
+        const data = {'board': currBoard}
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        };
+        let new_board = []
+
+        // send board to backend
+        const response = await fetch(url, requestOptions)
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+        const res_data = await response.json();
+        new_board = res_data;
+        return new_board;
+    }
+
+    async updateBoard(column, row) {
         if (this.state.board[column][row] === 0) {
             let i = -1;
             let updated = false;
@@ -37,10 +64,22 @@ class Board extends React.Component {
                     }
                 })
             })
-            this.setState(prevState => ({
+    
+            // update the state from the players turn
+            await this.setState(prevState => ({
                 board: nextBoard,
                 turn: (prevState.turn + 1) % 2
             }))
+    
+            // ask the AI for its turn
+            if (this.gameMode === "pve") {
+                const aiBoard = await this.getBoardFromBackend(nextBoard)
+                let nextState = {
+                    board: aiBoard,
+                    turn: (this.state.turn + 1) % 2
+                }
+                this.setState(nextState, () => {});
+            }
         }
     }
 
