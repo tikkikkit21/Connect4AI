@@ -11,7 +11,7 @@ class Board extends React.Component {
         this.state = {
             board: this.getBoardFromBackend(),
             grid: this.generateStartingGrid(),
-            turn: 0,
+            turn: 0, // 0 when player 1 is playing, 1 when player 2 is playing
         }
     }
 
@@ -22,7 +22,6 @@ class Board extends React.Component {
     }
 
     updateBoard(column) {
-        console.log("updating board")
         let i = -1;
         let updated = false;
         const nextBoard = this.state.board.map((currCol) => {
@@ -53,25 +52,34 @@ class Board extends React.Component {
         return code
     }
 
-    componentDidUpdate(prevState) {
+    componentDidUpdate(prevProps, prevState) {
         if (this.state.board != prevState.board && this.state.turn != prevState.turn) {
-            console.log("state has updated!: ", prevState.board, " -> ", this.state.board);
-            console.log(this.state.turn);
-            // let array = this.state.grid;
-            // let i = 0;
-            // let key = `${this.state.actionColumn}${this.state.actionRow}`;
-            // while (!(array[i].props.keyProps === key)) {
-            //     i++;
-            // }
-            // if (this.state.turn % 2 === 0) {
-            //     array[i] = <Circle value="one" column={this.state.actionColumn} keyProps={`${this.state.actionColumn}${this.state.actionRow}`} handleClick={this.updateBoard} key={`${this.state.actionColumn}${this.state.actionRow}`}/>
-            // }
-            // else {
-            //     array[i] = <Circle value="two" column={this.state.actionColumn} keyProps={`${this.state.actionColumn}${this.state.actionRow}`} handleClick={this.updateBoard} key={`${this.state.actionColumn}${this.state.actionRow}`}/>
-            // }
-            // this.setState(prevState => ({
-            //     grid: array
-            // }))
+            let actionColumn = 0;
+            let actionRow = 0;
+            // Find the column and the row of the updated value by finding the different index between previous board and current board
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 6; j++) {
+                    if (this.state.board[i][j] !== prevState.board[i][j]) {
+                        actionColumn = i;
+                        actionRow = j;
+                    }
+                }
+            }
+            let array = this.state.grid;
+            let i = 0;
+            let key = `${actionColumn}${actionRow}`;
+            while (!(array[i].props.keyProps === key)) {
+                i++;
+            }
+            if (this.state.turn % 2 === 0) {
+                array[i] = <Circle value="one" column={actionColumn} keyProps={`${actionColumn}${actionRow}`} handleClick={this.updateBoard} key={`${actionColumn}${actionRow}`}/>
+            }
+            else {
+                array[i] = <Circle value="two" column={actionColumn} keyProps={`${actionColumn}${actionRow}`} handleClick={this.updateBoard} key={`${actionColumn}${actionRow}`}/>
+            }
+            this.setState(prevState => ({
+                grid: array
+            }))
         }
         
     }
