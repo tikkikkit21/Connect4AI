@@ -3,7 +3,7 @@ import Board from './Board.jsx';
 function PlayerPage() {
     return (
         <main>
-            <p>This is the player page.</p>
+            <h1>Player vs Player</h1>
             <Board />
         </main>
     )
