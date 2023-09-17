@@ -37,7 +37,6 @@ function Home() {
 
     return (
         <main className="main-menu"> 
-		    <Header />
             <h1> Connect4 AI </h1>
             <div className="menu-button-container">
                 <NavLink style = {{ textDecoration: "none"}} onClick={()=>{toggleDrop(1);delayNav("/player-v-player");}}>
