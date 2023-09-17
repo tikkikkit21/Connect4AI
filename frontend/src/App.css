@@ -3,17 +3,31 @@
 h1 {
   text-align: center;
   font-family: 'Chakra Petch', sans-serif;
-  color: #9fd3c7;
+  color: #142d4c;
+}
+
+h2 {
+  text-align: center;
+  font-family: 'Indie Flower', cursive;
+  color: #385170;
 }
 
 body {
   background-color: #ececec;
 }
 
+.grid-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
 .game-grid {
   display: inline-grid;
-  grid-template-columns: repeat(7, 70px);
-  grid-template-rows: repeat(6, 70px);
+  justify-items: center;
+  grid-template-columns: repeat(7, 60px);
+  grid-template-rows: repeat(6, 60px);
   column-gap: 10px;
   row-gap: 10px;
   outline: 0.1px solid black;
@@ -27,8 +41,8 @@ body {
 
 .circle {
   display: flex;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 } 
 

@@ -55,6 +55,7 @@ class Board extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        // Functionality to update the grid after board updates
         if (this.state.board != prevState.board && this.state.turn != prevState.turn) {
             let actionColumn = 0;
             let actionRow = 0;
@@ -82,15 +83,18 @@ class Board extends React.Component {
             this.setState(prevState => ({
                 grid: array
             }))
+            // This calls the function to switch the message at the top of the page
+            this.props.onTurn(this.state.turn);
         }
-        
     }
 
     render() {
         return (
-            <div className="game-grid">
-                {this.state.grid}
-            </div>
+            <div className="grid-container">
+                <div className="game-grid">
+                    {this.state.grid}
+                </div>
+            </div>            
         )
     }
 }

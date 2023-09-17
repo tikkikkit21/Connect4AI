@@ -1,6 +1,6 @@
 function AnalyzerPage() {
     return (
-        <p>This is the analyzer page.</p>
+        <p>This page is under construction. Sorry :(</p>
     )
 }
 
