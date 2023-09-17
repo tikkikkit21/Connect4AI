@@ -36,23 +36,22 @@ def get_next_move():
 
     return ai_service.get_next_move(game_state=game_state)
 
-#This one is the same as /getnextmove except it returns a table instead of a location
-@app.route('/domove', methods=['POST'])                                              
-def do_move():                                                                       
-    data = request.get_json()                                                        
-    board = data['board']                                                            
-    game_state = GameState(custom_board=board)                                       
-    ai_service = AiService()                                                         
-    row = ai_service.get_next_move(game_state=game_state)["row"]                     
-    column = ai_service.get_next_move(game_state=game_state)["column"]               
-    print("ROW: ", row)                                                              
-    print("COLUMN: ", column)                                                        
-    # row, col                                                                       
-    #print(board)                                                                    
-    #print("------")                                                                 
-    board[column][row] = 2                                                           
-    #print(board)                                                                    
-    return jsonify(board)                                                            
+# This one is the same as /getnextmove except it returns a table instead of a location
+@app.route('/getnextboard', methods=['POST']) 
+def get_next_board():                                
+    data = request.get_json()
+    board = data['board']
+    game_state = GameState(custom_board=board)
+    ai_service = AiService()
+
+    # get the next move from ai service
+    next_move = ai_service.get_next_move(game_state=game_state)
+    row = next_move["row"]
+    column = next_move["column"]
+
+    # edit the array, then send it back
+    board[column][row] = 2
+    return jsonify(board)
 
 if __name__ == '__main__':
     # Run the application on a local development server
