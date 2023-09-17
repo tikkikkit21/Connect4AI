@@ -34,6 +34,7 @@ class Board extends React.Component {
         const data = {'board': currBoard}
         const requestOptions = {
             method: 'POST',
+            mode: "cors",
             headers: {
                 'Content-Type': 'application/json',
             },

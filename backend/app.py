@@ -1,24 +1,26 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 from ai_service import AiService
 from game_state import GameState
 
 app = Flask(__name__)
-CORS(app)
-
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/')  # TODO: Emphasize this endpoint. It's spitting
 def who_is_different():
     return 'Eugene is different'
 
 
 @app.route('/hello')  # TODO: Remove
+@cross_origin()
 def hello_world():
     return 'hello_world'
 
 
 @app.route('/firstmove')  # TODO: Remove
 # first move will always be the same, but will remove this
+@cross_origin()
 def get_first_move():
     return {
         'column': 0,
@@ -29,6 +31,7 @@ def get_first_move():
 # SEE readme for example http post to hit this
 @app.route('/getnextmove', methods=['POST'])
 # receive in the game state, send AI's next move
+@cross_origin()
 def get_next_move():
     data = request.get_json()  # body of POST
     board = data['board']
@@ -40,6 +43,7 @@ def get_next_move():
 
 # This one is the same as /getnextmove except it returns a table instead of a location
 @app.route('/getnextboard', methods=['POST']) 
+@cross_origin()
 def get_next_board():                                
     data = request.get_json()
     board = data['board']
