@@ -16,72 +16,24 @@ h3 {
   font-family: 'Indie Flower';
   font-style: normal;
   font-weight: 400;
+  color:white;
 }
 
 h3:link {
   text-decoration: none;
 }
 
-body {
-  background-color: #ececec;
-  height: 100%;
-}
-
 html {
   height: 100%
 }
 
-#root {
-  height: 100%
-}
-
-.main-menu {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 200px;
+body {
   height: 100%;
+  background-color: #ececec;
 }
 
-.menu-button-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  width: 80%;
-}
-
-.circle-class {
-  display: flex;
-  justify-content: center; 
-  align-items: center;
-  border-radius:50%;
-}
-
-.outer-button {
-  height: 240px;
-  width: 240px;
-}
-
-.button-container {
-  height: 200px;
-  width: 200px;
-  /* background-color:rgba(207, 60, 60); */
-  border: 5px dotted rgba(0,0,0,0.2);
-  /* outline: 5px solid rgba(207, 60, 60); */
-  padding: 10px;
-  box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
-}
-
-.button-container div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius:50%;
-  height:90%;
-  width:90%;
-  background-color:rgba(0, 0, 0, 0.2);
-  /* outline: 30px solid rgba(50, 60, 60); */
-  border: 10px solid rgba(0, 0, 0, 0.1);
+#root {
+  height: 100%;
 }
 
 .header-container {
@@ -98,6 +50,125 @@ html {
   color: white
 }
 
+
+.main-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 200px;
+  height: 100%;
+  /* background-color: orange; */
+}
+
+.menu-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 80%;
+  /* background-color:blue; */
+}
+
+.fake-board {
+  background-color: blue;
+  height: 150px;
+  width:90%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  position: fixed;
+  bottom: 0;
+}
+
+.circle-class {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  border-radius:50%;
+}
+
+.outer-button {
+  height: 240px;
+  width: 240px;
+  box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
+  animation-duration: .25s;
+  animation-name: button-unhover;
+}
+
+.outer-button-hover:hover {
+  height: 250px;
+  width: 250px;
+  box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
+  animation-duration: .25s;
+  animation-name: button-hover;
+}
+
+.dropped {
+  /* position: fixed; */
+  margin-top: 0px;
+  animation-name: button-drop;
+  animation-duration: .65s;
+}
+
+@keyframes button-drop {
+  from {
+    margin-top: 0px;
+    transform:rotate(0deg);
+  }
+
+  to {
+    margin-top: 210px;
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes button-hover {
+  from {
+    height: 240px;
+    width: 240px;
+    box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
+  }
+
+  to {
+    height: 250px;
+    width: 250px;
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
+  }
+}
+
+@keyframes button-unhover {
+  from {
+    height: 250px;
+    width: 250px;
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.3);
+  }
+
+  to {
+    height: 240px;
+    width: 240px;
+    box-shadow: 5px 5px 2px rgba(0,0,0,0.3);
+  }
+}
+
+.button-container {
+  height: 83%;
+  width: 83%;
+  /* background-color:rgba(207, 60, 60); */
+  border: 5px dotted rgba(0,0,0,0.2);
+  /* outline: 5px solid rgba(207, 60, 60); */
+  padding: 10px;
+}
+
+.button-container div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius:50%;
+  height:90%;
+  width:90%;
+  background-color:rgba(0, 0, 0, 0.2);
+  /* outline: 30px solid rgba(50, 60, 60); */
+  border: 10px solid rgba(0, 0, 0, 0.1);
+}
+
 .grid-container {
   display: flex;
   width: 100%;
@@ -108,8 +179,8 @@ html {
 .game-grid {
   display: inline-grid;
   justify-items: center;
-  grid-template-columns: repeat(7, 70px);
-  grid-template-rows: repeat(6, 70px);
+  grid-template-columns: repeat(7, 60px);
+  grid-template-rows: repeat(6, 60px);
   column-gap: 10px;
   row-gap: 10px;
   outline: 0.1px solid black;
@@ -123,8 +194,8 @@ html {
 
 .circle {
   display: flex;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 } 
 
@@ -145,17 +216,17 @@ html {
 }
 
 /* .first-color { 
-	background: #ececec; 
+  background: #ececec; 
 }
-	
+  
 .second-color { 
-	background: #9fd3c7; 
+  background: #9fd3c7; 
 }
 
 .third-color { 
-	background: #385170; 
+  background: #385170; 
 }
 
 .fourth-color { 
-	background: #142d4c; 
+  background: #142d4c; 
 } */
