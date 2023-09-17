@@ -1,13 +1,23 @@
-function Circle(props) {
-    const { value, bruh } = props
+import { useState } from 'react';
 
-    const handleClick = () => {
+function Circle(props) {
+    const { value, column, handleClick } = props
+    const [mouseHover, setMouseHover] = useState("no-hover")
+
+    const handleMouseEnter = () => {
+        setMouseHover("hover")
+    }
+
+    const handleMouseLeave = () => {
+        setMouseHover("no-hover")
     }
 
     return (
         <div 
-            className={`circle ${value}`}
-            onClick={handleClick}
+            className={`circle ${value} ${mouseHover}`}
+            onClick={() => handleClick(column)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
         >
         </div>
     );

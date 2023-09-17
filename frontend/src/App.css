@@ -32,8 +32,12 @@ body {
   border-radius: 50%;
 } 
 
-.zero {
+.no-hover {
   background-color: lightblue;
+}
+
+.hover {
+  background-color: yellow;
 }
 
 .one {
@@ -42,10 +46,6 @@ body {
 
 .two {
   background-color: #f7bb05;
-}
-
-.circle:hover {
-  background-color: yellow;
 }
 
 /* .first-color { 
