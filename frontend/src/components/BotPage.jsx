@@ -1,6 +1,11 @@
+import Board from './Board.jsx';
+
 function BotPage() {
     return (
-        <p>This is the bot page.</p>
+        <main>
+            <p>This is the bot page.</p>
+            <Board gameMode={"pve"}/>
+        </main>
     )
 }
 
