@@ -1,8 +1,7 @@
 function Circle(props) {
-    const { value } = props
+    const { value, bruh } = props
 
     const handleClick = () => {
-        console.log("hello")
     }
 
     return (
