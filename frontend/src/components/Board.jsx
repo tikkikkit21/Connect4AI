@@ -50,36 +50,38 @@ class Board extends React.Component {
         return new_board;
     }
 
-    async updateBoard(column) {
-        let i = -1;
-        let updated = false;
-        const nextBoard = this.state.board.map((currCol) => {
-            i++;
-            return currCol.map((cell) => {
-                if (i === column && cell == 0 && !updated) {
-                    updated = true;
-                    return this.state.turn + 1;
-                }
-                else {
-                    return cell;
-                }
+    async updateBoard(column, row) {
+        if (this.state.board[column][row] === 0) {
+            let i = -1;
+            let updated = false;
+            const nextBoard = this.state.board.map((currCol) => {
+                i++;
+                return currCol.map((cell) => {
+                    if (i === column && cell == 0 && !updated) {
+                        updated = true;
+                        return this.state.turn + 1;
+                    }
+                    else {
+                        return cell;
+                    }
+                })
             })
-        })
-
-        // update the state from the players turn
-        await this.setState(prevState => ({
-            board: nextBoard,
-            turn: (prevState.turn + 1) % 2
-        }))
-
-        // ask the AI for its turn
-        if (this.gameMode === "pve") {
-            const aiBoard = await this.getBoardFromBackend(nextBoard)
-            let nextState = {
-                board: aiBoard,
-                turn: (this.state.turn + 1) % 2
+    
+            // update the state from the players turn
+            await this.setState(prevState => ({
+                board: nextBoard,
+                turn: (prevState.turn + 1) % 2
+            }))
+    
+            // ask the AI for its turn
+            if (this.gameMode === "pve") {
+                const aiBoard = await this.getBoardFromBackend(nextBoard)
+                let nextState = {
+                    board: aiBoard,
+                    turn: (this.state.turn + 1) % 2
+                }
+                this.setState(nextState, () => {});
             }
-            this.setState(nextState, () => {});
         }
     }
 
@@ -87,7 +89,7 @@ class Board extends React.Component {
         let code = []
         for (let i = 5; i > -1; i--) {
             for (let j = 0; j < 7; j++) {
-                code.push(<Circle value='zero' column={j} keyProps={`${j}${i}`} handleClick={this.updateBoard} key={`${j}${i}`}/>)
+                code.push(<Circle value='zero' column={j} row={i} keyProps={`${j}${i}`} handleClick={this.updateBoard} key={`${j}${i}`}/>)
             }
         }
         return code
@@ -113,14 +115,15 @@ class Board extends React.Component {
                 i++;
             }
             if (this.state.turn % 2 === 0) {
-                array[i] = <Circle value="one" column={actionColumn} keyProps={`${actionColumn}${actionRow}`} handleClick={this.updateBoard} key={`${actionColumn}${actionRow}`}/>
+                array[i] = <Circle value="one" column={actionColumn} row={actionRow} keyProps={`${actionColumn}${actionRow}`} handleClick={this.updateBoard} key={`${actionColumn}${actionRow}`}/>
             }
             else {
-                array[i] = <Circle value="two" column={actionColumn} keyProps={`${actionColumn}${actionRow}`} handleClick={this.updateBoard} key={`${actionColumn}${actionRow}`}/>
+                array[i] = <Circle value="two" column={actionColumn} row={actionRow} keyProps={`${actionColumn}${actionRow}`} handleClick={this.updateBoard} key={`${actionColumn}${actionRow}`}/>
             }
             this.setState(prevState => ({
                 grid: array
             }))
+            this.props.onTurn(this.state.turn);
 
             // check for end of game
             if (this.checkEndOfGame()){
@@ -239,8 +242,10 @@ class Board extends React.Component {
                     <h1>Game Over</h1>
                 ) : null}
                 </div>
-                <div className="game-grid">
-                    {this.state.grid}
+                <div className="grid-container">
+                    <div className="game-grid">
+                        {this.state.grid}
+                    </div>
                 </div>
             </div>
         )

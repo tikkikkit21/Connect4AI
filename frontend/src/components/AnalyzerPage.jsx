@@ -1,6 +1,11 @@
+import Header from './Header.jsx'
+
 function AnalyzerPage() {
     return (
-        <p>This is the analyzer page.</p>
+        <div>
+            <Header />
+            <p>This page is under construction. Sorry :(</p>
+        </div>
     )
 }
 
