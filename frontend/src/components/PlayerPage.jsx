@@ -4,7 +4,7 @@ function PlayerPage() {
     return (
         <main>
             <p>This is the player page.</p>
-            <Board />
+            <Board gameMode={"pvp"}/>
         </main>
     )
 }
